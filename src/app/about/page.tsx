@@ -25,7 +25,7 @@ export default function AboutPage() {
       {/* Main Replaceable Image */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10">
         <AnimatedSection delay={0.2} className="relative w-full h-[150px] md:h-[200px] rounded-2xl overflow-hidden shadow-2xl border-4 border-white z-10 bg-primary-dark flex items-center justify-center">
-            <h2 className="text-3xl font-serif font-bold text-white mb-4">Leading Academic Excellence</h2>
+          <h2 className="text-3xl font-serif font-bold text-white mb-4">Leading Academic Excellence</h2>
         </AnimatedSection>
       </section>
 
@@ -35,9 +35,9 @@ export default function AboutPage() {
           <AnimatedSection>
             <div className="flex items-center gap-3 mb-6">
               <Target className="text-gold" size={32} />
-              <h2 className="text-3xl font-serif font-bold text-primary">Our MissioN</h2>
+              <h2 className="text-3xl font-serif font-bold text-primary"><p className="text-gray-200">Our Mission</p></h2>
             </div>
-            <p className="text-gray-700 leading-relaxed text-lg mb-6">
+            <p className="text-gray-200 leading-relaxed text-lg mb-6">
               &quot;Our Mission is to give scholars, academics, and educational institutions all around the world unmatched assistance and resources. We are dedicated to fostering a culture of rigorous scholarship and creativity through our extensive suite of services, which includes the production of books and journals, seminars, conferences, and faculty development programs. We work to expand the boundaries of research and make a significant contribution to the international academic community by encouraging cooperation, facilitating the exchange of knowledge, and upholding academic integrity.&quot;
             </p>
           </AnimatedSection>
@@ -137,7 +137,7 @@ export default function AboutPage() {
                 <p className="text-gold font-medium uppercase tracking-widest text-sm mt-1">Co Founder</p>
               </div>
               <p className="text-gray-600 leading-relaxed text-sm flex-grow">
-                Ms. Khushboo Bidawatka, excels in academics, research, and teaching. Recognized for her outstanding research, she was honored with the 2nd Best Research Paper Award at the International conference. She holds 3 Patents awarded by The Patent Office, Government of India for creating unique design on an “AI Based Digital Marketing Billboard” and “Display Device for Digital Marketing” and “Machine Learning based device for training students”. 2 International Patents have been awarded: “Distribution System for Influencer Marketing Device” issued by The Government of the United Kingdom, and “AI-based Marketing Management System” issued by The Government of Germany. She is All India Faculty for Teaching to CA & CS Students and also Known for her engaging teaching style. 
+                Ms. Khushboo Bidawatka, excels in academics, research, and teaching. Recognized for her outstanding research, she was honored with the 2nd Best Research Paper Award at the International conference. She holds 3 Patents awarded by The Patent Office, Government of India for creating unique design on an “AI Based Digital Marketing Billboard” and “Display Device for Digital Marketing” and “Machine Learning based device for training students”. 2 International Patents have been awarded: “Distribution System for Influencer Marketing Device” issued by The Government of the United Kingdom, and “AI-based Marketing Management System” issued by The Government of Germany. She is All India Faculty for Teaching to CA & CS Students and also Known for her engaging teaching style.
               </p>
             </div>
           </AnimatedSection>
