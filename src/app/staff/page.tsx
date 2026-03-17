@@ -109,11 +109,11 @@ const STAFF_MEMBERS: any[] = [
   },
   {
     id: 10,
-    name: 'Dr. Swati Agarwal',
+    name: 'Dr. Swati Agrawal',
     role: 'Board Member',
     department: 'Board Member',
     image: '/staff/swati_agarwal.jpg',
-    bio: 'Assistant Professor & IQAC Coordinator at Atharva Institute of Management Studies. Ph.D. in Management. Passionate educator focusing on contemporary marketing principles.',
+    bio: 'Dedicated academic professional and Certified Career Planner with expertise in Marketing, Finance, CSR, and Digital Transformation. Ph.D. in Management from Sabarmati University. Holds a Govt of India copyright for Social Media Influencer Marketing in Retail.',
     email: 'swati.agrawal@atharvaims.edu.in',
     linkedin: 'https://www.atharvaims.edu.in/faculty.php',
     website: 'https://www.atharvaims.edu.in/faculty.php'
@@ -144,9 +144,9 @@ const STAFF_MEMBERS: any[] = [
     id: 13,
     name: 'Dr. Monika Shrimali',
     role: 'Board Member',
-    department: 'Board Member',
+    department: 'Faculty at Management Department',
     image: '/staff/monika_shrimali.jpg',
-    bio: 'Assistant Professor at Atharva Institute. Over nine years combined expertise. Publishes in SCOPUS and ABDC journals. Author of "Marketing of Financial Services".',
+    bio: 'Assistant Professor at Atharva Institute of Management Studies with over a decade of expertise. PhD and NET qualified in Management. Extensive publications in prestigious SCOPUS and ABDC journals. Author of "Marketing of Financial Services".',
     email: 'monika.shrimali@atharvaims.edu.in',
     linkedin: 'https://www.atharvaims.edu.in/faculty.php',
     website: 'https://www.atharvaims.edu.in/faculty.php'

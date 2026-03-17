@@ -96,49 +96,58 @@ export default function AboutPage() {
           <div className="w-24 h-1 bg-gold mx-auto" />
         </AnimatedSection>
 
-        <div className="grid lg:grid-cols-3 gap-10">
+        <div className="space-y-12">
+          {/* Founder 1 */}
           <AnimatedSection delay={0.1}>
-            <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-8 h-full flex flex-col">
-              <div className="text-center mb-6">
-                <div className="relative w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden border-4 border-gray-100 shadow-lg">
+            <div className="bg-white rounded-3xl shadow-2xl border border-gray-100 p-8 md:p-12 flex flex-col md:flex-row items-center gap-10 hover:shadow-gold/20 transition-all duration-500">
+              <div className="md:w-1/3 flex-shrink-0">
+                <div className="relative w-48 h-48 md:w-64 md:h-64 mx-auto rounded-full overflow-hidden border-8 border-gold/20 shadow-xl">
                   <StaffImage src="/staff/hardik_goradiya.jpg" name="Adv. Hardik Goradiya" />
                 </div>
-                <h3 className="text-2xl font-serif font-bold text-primary">Adv. Hardik Goradiya</h3>
-                <p className="text-gold font-medium uppercase tracking-widest text-sm mt-1">Founder</p>
               </div>
-              <p className="text-gray-600 leading-relaxed text-sm flex-grow">
-                Adv. Hardik Goradiya boasts a diverse array of achievements in academia and professional development. He is holding 3 Patents awarded by The Patent Office, Government of India for creating unique design on an “AI Based Digital Marketing Billboard” and “Display Device for Digital Marketing” and a “Machine Learning based device for training students”. 2 International Patents have been awarded: “Distribution System for Influencer Marketing Device” issued by The Government of the United Kingdom, and “AI-based Marketing Management System” issued by The Government of Germany. He has been in Academics for the last 15 years and is a Profile Researcher. He is contributed for more than 30 research papers along with authoring 27 books. Notable accomplishments include being the 2nd Best Performer at Thakur Shyamnarayan Degree College, appointment as NAAC Consultant at Shree L. R. Tiwari College of Law, and membership in esteemed organizations like the Bar Council of Maharashtra & Goa. With roles ranging from expert faculty to industrial visit organizer and patent applicant, he showcases a commitment to education and innovation, alongside extensive mentoring experience.
-              </p>
+              <div className="md:w-2/3 text-center md:text-left">
+                <h3 className="text-3xl font-serif font-bold text-primary mb-2">Adv. Hardik Goradiya</h3>
+                <p className="text-gold font-bold uppercase tracking-widest text-sm mb-6 inline-block pb-2 border-b-2 border-primary/10">Founder</p>
+                <p className="text-gray-600 leading-relaxed text-base text-justify">
+                  Adv. Hardik Goradiya boasts a diverse array of achievements in academia and professional development. He is holding 3 Patents awarded by The Patent Office, Government of India for creating unique design on an “AI Based Digital Marketing Billboard” and “Display Device for Digital Marketing” and a “Machine Learning based device for training students”. 2 International Patents have been awarded: “Distribution System for Influencer Marketing Device” issued by The Government of the United Kingdom, and “AI-based Marketing Management System” issued by The Government of Germany. He has been in Academics for the last 15 years and is a Profile Researcher. He is contributed for more than 30 research papers along with authoring 27 books. Notable accomplishments include being the 2nd Best Performer at Thakur Shyamnarayan Degree College, appointment as NAAC Consultant at Shree L. R. Tiwari College of Law, and membership in esteemed organizations like the Bar Council of Maharashtra & Goa.
+                </p>
+              </div>
             </div>
           </AnimatedSection>
 
+          {/* Founder 2 */}
           <AnimatedSection delay={0.2}>
-            <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-8 h-full flex flex-col">
-              <div className="text-center mb-6">
-                <div className="relative w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden border-4 border-gray-100 shadow-lg">
+             <div className="bg-white rounded-3xl shadow-2xl border border-gray-100 p-8 md:p-12 flex flex-col md:flex-row-reverse items-center gap-10 hover:shadow-gold/20 transition-all duration-500">
+              <div className="md:w-1/3 flex-shrink-0">
+                <div className="relative w-48 h-48 md:w-64 md:h-64 mx-auto rounded-full overflow-hidden border-8 border-gold/20 shadow-xl">
                   <StaffImage src="/staff/nilam_goradiya.jpg" name="Mrs. Nilam H. Goradiya" />
                 </div>
-                <h3 className="text-2xl font-serif font-bold text-primary">Mrs. Nilam H. Goradiya</h3>
-                <p className="text-gold font-medium uppercase tracking-widest text-sm mt-1">Co Founder</p>
               </div>
-              <p className="text-gray-600 leading-relaxed text-sm flex-grow">
-                Mrs. Nilam H. Goradiya, Assistant Professor at Nirmala Memorial Foundation College of Commerce and Science, is a distinguished academician and researcher. She is holding 3 Patents awarded by The Patent Office, Government of India for creating unique design on an “AI Based Digital Marketing Billboard” and “Display Device for Digital Marketing” and “Machine Learning based device for training students”. 2 International Patents have been awarded: “Distribution System for Influencer Marketing Device” issued by The Government of the United Kingdom, and “AI-based Marketing Management System” issued by The Government of Germany. She has a Academic Experience of more than 10 years. She has authored more than 15 research papers and 25 books. Mrs. Nilam’s accolades include the Best Researcher award by Nirmala Memorial Foundation College of Commerce and Science.
-              </p>
+              <div className="md:w-2/3 text-center md:text-left">
+                <h3 className="text-3xl font-serif font-bold text-primary mb-2">Mrs. Nilam H. Goradiya</h3>
+                <p className="text-gold font-bold uppercase tracking-widest text-sm mb-6 inline-block pb-2 border-b-2 border-primary/10">Co Founder</p>
+                <p className="text-gray-600 leading-relaxed text-base text-justify">
+                  Mrs. Nilam H. Goradiya, Assistant Professor at Nirmala Memorial Foundation College of Commerce and Science, is a distinguished academician and researcher. She is holding 3 Patents awarded by The Patent Office, Government of India for creating unique design on an “AI Based Digital Marketing Billboard” and “Display Device for Digital Marketing” and “Machine Learning based device for training students”. 2 International Patents have been awarded: “Distribution System for Influencer Marketing Device” issued by The Government of the United Kingdom, and “AI-based Marketing Management System” issued by The Government of Germany. She has a Academic Experience of more than 10 years. She has authored more than 15 research papers and 25 books. Mrs. Nilam’s accolades include the Best Researcher award by Nirmala Memorial Foundation College of Commerce and Science.
+                </p>
+              </div>
             </div>
           </AnimatedSection>
 
+          {/* Founder 3 */}
           <AnimatedSection delay={0.3}>
-            <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-8 h-full flex flex-col">
-              <div className="text-center mb-6">
-                <div className="relative w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden border-4 border-gray-100 shadow-lg">
+            <div className="bg-white rounded-3xl shadow-2xl border border-gray-100 p-8 md:p-12 flex flex-col md:flex-row items-center gap-10 hover:shadow-gold/20 transition-all duration-500">
+              <div className="md:w-1/3 flex-shrink-0">
+                <div className="relative w-48 h-48 md:w-64 md:h-64 mx-auto rounded-full overflow-hidden border-8 border-gold/20 shadow-xl">
                   <StaffImage src="/staff/khushboo_bidawatka.jpg" name="Ms. Khushboo Bidawatka" />
                 </div>
-                <h3 className="text-2xl font-serif font-bold text-primary">Ms. Khushboo Bidawatka</h3>
-                <p className="text-gold font-medium uppercase tracking-widest text-sm mt-1">Co Founder</p>
               </div>
-              <p className="text-gray-600 leading-relaxed text-sm flex-grow">
-                Ms. Khushboo Bidawatka, excels in academics, research, and teaching. Recognized for her outstanding research, she was honored with the 2nd Best Research Paper Award at the International conference. She holds 3 Patents awarded by The Patent Office, Government of India for creating unique design on an “AI Based Digital Marketing Billboard” and “Display Device for Digital Marketing” and “Machine Learning based device for training students”. 2 International Patents have been awarded: “Distribution System for Influencer Marketing Device” issued by The Government of the United Kingdom, and “AI-based Marketing Management System” issued by The Government of Germany. She is All India Faculty for Teaching to CA & CS Students and also Known for her engaging teaching style.
-              </p>
+              <div className="md:w-2/3 text-center md:text-left">
+                <h3 className="text-3xl font-serif font-bold text-primary mb-2">Ms. Khushboo Bidawatka</h3>
+                <p className="text-gold font-bold uppercase tracking-widest text-sm mb-6 inline-block pb-2 border-b-2 border-primary/10">Co Founder</p>
+                <p className="text-gray-600 leading-relaxed text-base text-justify">
+                  Ms. Khushboo Bidawatka, excels in academics, research, and teaching. Recognized for her outstanding research, she was honored with the 2nd Best Research Paper Award at the International conference. She holds 3 Patents awarded by The Patent Office, Government of India for creating unique design on an “AI Based Digital Marketing Billboard” and “Display Device for Digital Marketing” and “Machine Learning based device for training students”. 2 International Patents have been awarded: “Distribution System for Influencer Marketing Device” issued by The Government of the United Kingdom, and “AI-based Marketing Management System” issued by The Government of Germany. She is All India Faculty for Teaching to CA & CS Students and also Known for her engaging teaching style.
+                </p>
+              </div>
             </div>
           </AnimatedSection>
         </div>

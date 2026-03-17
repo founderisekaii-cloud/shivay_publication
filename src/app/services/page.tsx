@@ -1,5 +1,5 @@
 import AnimatedSection from '@/components/ui/AnimatedSection';
-import { BookOpen, Award, Globe, ShieldCheck, FileText, BarChart } from 'lucide-react';
+import { BookOpen, Award, Globe, ShieldCheck, FileText, BarChart, FileCheck, Layers, BookType, Layout, Pencil } from 'lucide-react';
 
 export const metadata = {
   title: 'Services & ISBN Allocation | Shivay Publication',
@@ -14,29 +14,67 @@ const services = [
   },
   {
     icon: <BookOpen size={48} />,
-    title: 'Publication of Research Books',
-    description: 'Shivay Publications specializes in the dissemination of meticulously crafted research works, ensuring each publication is endowed with an International Standard Book Number (ISBN).',
+    title: 'Publishing Books & ISBN Allocation',
+    description: 'We specialize in the dissemination of meticulously crafted research works, ensuring each publication is endowed with an International Standard Book Number (ISBN).',
   },
   {
-    icon: <FileText size={48} />,
-    title: 'DOI Assignment',
-    description: 'Every published article receives a unique Digital Object Identifier (DOI) from Crossref, ensuring permanent, reliable links to your scholarly work.',
-  },
-  {
-    icon: <ShieldCheck size={48} />,
-    title: 'Faculty Development Programs',
-    description: 'We organize extensive and comprehensive Faculty Development Programs aimed at refining academic teaching standards and elevating higher education research.',
-  },
-  {
-    icon: <Award size={48} />,
-    title: 'National-Level Conferences',
-    description: 'We host and manage National-Level Conferences on Research, offering dynamic platforms for academicians, researchers, and professionals to present high-quality, original articles.',
+    icon: <Layers size={48} />,
+    title: 'Publishing Book Chapters',
+    description: 'Showcase your specialized research by publishing individual chapter(s) in an ISBN-accredited academic book.',
   },
   {
     icon: <BarChart size={48} />,
+    title: 'Publishing in ISSN Journals',
+    description: 'End-to-end support for publishing your peer-reviewed research papers in highly reputed ISSN-numbered journals.',
+  },
+  {
+    icon: <ShieldCheck size={48} />,
+    title: 'Patent Registration & Awards',
+    description: 'Comprehensive assistance with patent registration and awarding patents from the Government of India, United Kingdom, and United States.',
+  },
+  {
+    icon: <BookType size={48} />,
+    title: 'Notes to Academic Books',
+    description: 'Convert your academic notes into published books through our exclusive royalty and loyalty program designed specifically for educators.',
+  },
+  {
+    icon: <Award size={48} />,
+    title: 'UGC Care List & Scopus Support',
+    description: 'Expert guidance and support in getting your research papers successfully published in UGC Care List journals, Scopus, and other high-impact indexing databases.',
+  },
+  {
+    icon: <Pencil size={48} />,
+    title: 'Thesis & Dissertation Support',
+    description: 'Professional support and strategic guidance in the comprehensive writing of your Ph.D. Thesis, Projects, and Dissertations.',
+  },
+  {
+    icon: <Layout size={48} />,
+    title: 'Digital Content Creation',
+    description: 'State-of-the-art creation and publication of engaging digital content tailored for modern learning environments and global dissemination.',
+  },
+  {
+    icon: <FileCheck size={48} />,
     title: 'Research Plagiarism Checking',
     description: 'To maintain the highest ethical standards, we provide comprehensive similarity checks using industry-leading software like Turnitin and iThenticate.',
   },
+  {
+    icon: <FileText size={48} />,
+    title: 'National-Level Conferences',
+    description: 'We host and manage National-Level Conferences on Research, offering dynamic platforms for academicians to present original articles.',
+  },
+];
+
+const projects = [
+  { title: "A Multidisciplinary Exploration", link: "#" },
+  { title: "The Digital India 2050", link: "#" },
+  { title: "Globalisation: A Social Tension", link: "#" },
+  { title: "Make in India 2030: A Future Vision", link: "#" },
+  { title: "Transforming India Education", link: "#" },
+  { title: "Mental Health and Social Media Usage", link: "#" },
+  { title: "Gender Equality in Workplace Policies", link: "#" },
+  { title: "The Digital Revolution AI", link: "#" },
+  { title: "Women Entrepreneurship in 21st Century", link: "#" },
+  { title: "Volume 2 The Digital Revolution", link: "#" }
 ];
 
 export default function ServicesPage() {
@@ -70,6 +108,34 @@ export default function ServicesPage() {
               </div>
             </AnimatedSection>
           ))}
+        </div>
+      </section>
+
+      {/* Our Projects Section */}
+      <section className="py-24 bg-white border-y border-gray-100 mt-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <AnimatedSection className="text-center mb-16">
+            <h2 className="text-4xl font-serif font-bold text-primary mb-4">Our Projects</h2>
+            <div className="w-24 h-1 bg-gold mx-auto" />
+            <p className="mt-6 text-gray-600 max-w-2xl mx-auto text-lg">Explore our diverse portfolio of published works spanning across multidisciplinary paradigms, shaping the future of global academic literature.</p>
+          </AnimatedSection>
+          
+          <div className="grid grid-cols-2 lg:grid-cols-5 gap-6">
+             {projects.map((proj, idx) => (
+                <AnimatedSection key={idx} delay={idx * 0.05}>
+                  <div className="bg-primary/5 rounded-xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group h-full flex flex-col cursor-pointer">
+                    <div className="h-[250px] bg-primary p-6 flex flex-col justify-end relative overflow-hidden text-center shadow-inner">
+                       <BookOpen size={100} strokeWidth={1} className="text-white/10 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 group-hover:scale-125 transition-transform duration-700" />
+                       <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-gold/40 to-transparent rounded-bl-3xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                       <h3 className="text-white font-serif font-bold text-xl relative z-10 break-words leading-tight group-hover:text-gold transition-colors pb-4">{proj.title}</h3>
+                    </div>
+                    <div className="p-4 bg-white text-center border-t-2 border-gold/30 mt-auto flex items-center justify-center gap-2 group-hover:bg-gray-50 transition-colors">
+                       <span className="text-primary font-bold text-xs md:text-sm uppercase tracking-wider">View Full Book</span>
+                    </div>
+                  </div>
+                </AnimatedSection>
+             ))}
+          </div>
         </div>
       </section>
 
