@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
@@ -25,6 +25,17 @@ type SignupFormValues = z.infer<typeof signupSchema>;
 export default function SignupPage() {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Check if already logged in
+    if (typeof window !== 'undefined' && window.localStorage.getItem('shivay_admin_access') === 'granted') {
+      router.push('/dashboard/admin');
+      return;
+    }
+    AuthService.getUser().then(user => {
+      if (user) router.push('/dashboard/author');
+    }).catch(() => {});
+  }, [router]);
 
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<SignupFormValues>({
     resolver: zodResolver(signupSchema),

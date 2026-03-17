@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { DbService } from '@/services/db.service';
+import { AuthService } from '@/services/auth.service';
 import AnimatedSection from '@/components/ui/AnimatedSection';
 import { UploadCloud, CheckCircle, ChevronRight, ChevronLeft, FileText, Loader2, AlertCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -49,18 +50,20 @@ export default function SubmitPage() {
     setError(null);
 
     try {
-      // Create a unique path for the file (timestamp + filename)
-      const timestamp = new Date().getTime();
-      const filePath = `manuscripts/${timestamp}_${file.name.replace(/[^a-zA-Z0-9.\-_]/g, '')}`;
-      
-      // Upload file directly to Supabase Storage
-      await DbService.uploadFile('submissions', filePath, file);
-      const publicUrl = DbService.getFileUrl('submissions', filePath);
+      // Include user email from auth context for the DB record
+      const session = await AuthService.getSession();
+      const email = session?.user?.email || 'unknown@example.com';
 
-      // We would theoretically save the metadata to our Postgres database here:
-      // await DbService.insert('papers', { ...data, pdf_url: publicUrl, status: 'Under Review' });
+      // Send the file + metadata jointly to the Apps Script DB wrapper
+      const result: any = await DbService.submitManuscript(file, {
+        ...data,
+        email: email
+      });
 
-      // After upload and insert
+      // Pass the returned ID to success state if we wanted to
+      console.log('Successfully saved to Drive/Sheet with ID:', result.id);
+
+      // After upload
       setStep(3);
     } catch (err: any) {
       console.error(err);

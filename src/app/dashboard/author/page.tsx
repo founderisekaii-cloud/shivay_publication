@@ -5,36 +5,39 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { AuthService } from '@/services/auth.service';
 import AnimatedSection from '@/components/ui/AnimatedSection';
-import { FileText, PlusCircle, CheckCircle, Clock, AlertCircle, LogOut } from 'lucide-react';
-
-const MOCK_SUBMISSIONS = [
-  { id: 'SUB-2025-081', title: 'Analysis of Neoclassical Architecture in Modern Urban Settings', status: 'Under Review', date: 'Oct 15, 2025' },
-  { id: 'SUB-2025-042', title: 'Machine Learning Models for Soil Moisture Prediction', status: 'Published', date: 'Jul 22, 2025', doi: '10.1234/shivay.2025.042' },
-  { id: 'SUB-2024-119', title: 'Ethical Dilemmas in AI-Driven Healthcare', status: 'Revisions Required', date: 'Dec 05, 2024' },
-];
+import { DbService } from '@/services/db.service';
+import { ExternalLink, FileText, PlusCircle, CheckCircle, Clock, AlertCircle, LogOut } from 'lucide-react';
 
 export default function AuthorDashboard() {
   const router = useRouter();
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [submissions, setSubmissions] = useState<string[][]>([]);
 
   useEffect(() => {
-    const checkUser = async () => {
+    const checkUserAndFetch = async () => {
       try {
         const currentUser = await AuthService.getUser();
         if (!currentUser) {
           router.push('/login');
-        } else {
-          setUser(currentUser);
+          return;
         }
+        setUser(currentUser);
+        
+        // Fetch raw data from Google Sheet Web App
+        const allData = await DbService.getAll();
+        // Filter out only the rows belonging to this user's email
+        const userSubs = allData.filter((row: string[]) => row[2] === currentUser.email);
+        
+        setSubmissions(userSubs.reverse()); // Show newest first
       } catch (err) {
-        router.push('/login');
+        console.error(err);
       } finally {
         setLoading(false);
       }
     };
     
-    checkUser();
+    checkUserAndFetch();
   }, [router]);
 
   const handleLogout = async () => {
@@ -44,21 +47,26 @@ export default function AuthorDashboard() {
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'Published': return <CheckCircle className="text-green-500" size={20} />;
-      case 'Under Review': return <Clock className="text-blue-500" size={20} />;
-      case 'Revisions Required': return <AlertCircle className="text-orange-500" size={20} />;
+      case 'Approved': return <CheckCircle className="text-green-500" size={20} />;
+      case 'Pending Review': return <Clock className="text-blue-500" size={20} />;
+      case 'Revisions Requested': return <AlertCircle className="text-orange-500" size={20} />;
+      case 'Rejected': return <AlertCircle className="text-red-500" size={20} />;
       default: return <FileText className="text-gray-500" size={20} />;
     }
   };
 
   const getStatusClass = (status: string) => {
     switch (status) {
-      case 'Published': return 'bg-green-100 text-green-800';
-      case 'Under Review': return 'bg-blue-100 text-blue-800';
-      case 'Revisions Required': return 'bg-orange-100 text-orange-800';
+      case 'Approved': return 'bg-green-100 text-green-800';
+      case 'Pending Review': return 'bg-blue-100 text-blue-800';
+      case 'Revisions Requested': return 'bg-orange-100 text-orange-800';
+      case 'Rejected': return 'bg-red-100 text-red-800';
       default: return 'bg-gray-100 text-gray-800';
     }
   };
+
+  const pubCount = submissions.filter(s => s[6] === 'Approved').length;
+  const pendingCount = submissions.filter(s => s[6] === 'Pending Review').length;
 
   if (loading) {
     return <div className="min-h-screen flex items-center justify-center bg-background"><div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gold"></div></div>;
@@ -92,15 +100,15 @@ export default function AuthorDashboard() {
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
                   <span className="text-gray-600">Total Submissions</span>
-                  <span className="text-xl font-bold text-primary">3</span>
+                  <span className="text-xl font-bold text-primary">{submissions.length}</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-gray-600">Published</span>
-                  <span className="text-xl font-bold text-green-600">1</span>
+                  <span className="text-xl font-bold text-green-600">{pubCount}</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-gray-600">Pending Review</span>
-                  <span className="text-xl font-bold text-blue-600">1</span>
+                  <span className="text-xl font-bold text-blue-600">{pendingCount}</span>
                 </div>
               </div>
             </div>
@@ -115,44 +123,48 @@ export default function AuthorDashboard() {
           {/* Main Content / Paper List */}
           <AnimatedSection delay={0.2} className="md:col-span-3">
             <div className="bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden">
-              <div className="px-6 py-5 border-b border-gray-100">
+              <div className="px-6 py-5 border-b border-gray-100 flex justify-between items-center">
                 <h2 className="text-xl font-bold text-primary">My Manuscripts</h2>
               </div>
               <ul className="divide-y divide-gray-100">
-                {MOCK_SUBMISSIONS.map((sub) => (
-                  <li key={sub.id} className="p-6 hover:bg-gray-50 transition-colors">
+                {submissions.map((sub) => (
+                  <li key={sub[0]} className="p-6 hover:bg-gray-50 transition-colors">
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                       <div className="flex-grow">
                          <div className="flex items-center gap-3 mb-2">
-                           <span className="text-xs font-mono font-bold text-gray-500 bg-gray-100 px-2 py-1 rounded">{sub.id}</span>
-                           <span className={`text-xs font-bold px-2.5 py-1 rounded-full flex items-center gap-1.5 ${getStatusClass(sub.status)}`}>
-                             {getStatusIcon(sub.status)} {sub.status}
+                           <span className="text-xs font-mono font-bold text-gray-500 bg-gray-100 px-2 py-1 rounded">{sub[0]}</span>
+                           <span className={`text-xs font-bold px-2.5 py-1 rounded-full flex items-center gap-1.5 ${getStatusClass(sub[6])}`}>
+                             {getStatusIcon(sub[6])} {sub[6]}
                            </span>
                          </div>
-                         <h3 className="text-lg font-bold text-primary mb-1">{sub.title}</h3>
+                         <h3 className="text-lg font-bold text-primary mb-1">{sub[4]}</h3>
                          <div className="text-sm text-gray-500 flex flex-wrap gap-x-4 gap-y-2">
-                            <span>Submitted: {sub.date}</span>
-                            {sub.doi && <span className="text-gold font-mono">DOI: {sub.doi}</span>}
+                            <span>Submitted: {sub[1].split(',')[0]}</span>
                          </div>
                       </div>
                       <div className="flex-shrink-0 flex gap-3">
-                        {sub.status === 'Published' ? (
-                          <Link href={`/pdf/${sub.id}`} className="px-4 py-2 border border-gray-200 text-sm font-bold text-primary hover:bg-gray-50 rounded transition-colors">
-                            View PDF
+                        {sub[8] ? (
+                          <Link href={sub[8]} target="_blank" className="px-4 py-2 bg-primary text-white text-sm font-bold flex items-center gap-2 rounded shadow hover:bg-primary-dark transition-colors">
+                            <ExternalLink size={16} /> View Final Proof
                           </Link>
-                        ) : sub.status === 'Revisions Required' ? (
-                          <button className="px-4 py-2 bg-primary text-white text-sm font-bold rounded shadow hover:bg-primary-dark transition-colors">
+                        ) : sub[6] === 'Revisions Requested' ? (
+                          <button className="px-4 py-2 bg-orange-500 text-white text-sm font-bold rounded shadow hover:bg-orange-600 transition-colors">
                             Submit Revision
                           </button>
                         ) : (
-                           <button className="px-4 py-2 border border-gray-200 text-sm font-bold text-gray-500 hover:bg-gray-50 rounded transition-colors">
-                            View Details
+                           <button className="px-4 py-2 border border-gray-200 text-sm font-bold text-gray-500 hover:bg-gray-50 rounded transition-colors cursor-default">
+                            {sub[6] === 'Pending Review' ? 'In Pipeline' : 'See Details'}
                           </button>
                         )}
                       </div>
                     </div>
                   </li>
                 ))}
+                {submissions.length === 0 && (
+                  <div className="p-10 text-center text-gray-500">
+                     No manuscripts submitted yet. Click &quot;New Submission&quot; to begin.
+                  </div>
+                )}
               </ul>
             </div>
           </AnimatedSection>

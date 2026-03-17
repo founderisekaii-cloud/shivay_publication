@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
@@ -20,6 +20,17 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 export default function LoginPage() {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Check if already logged in
+    if (typeof window !== 'undefined' && window.localStorage.getItem('shivay_admin_access') === 'granted') {
+      router.push('/dashboard/admin');
+      return;
+    }
+    AuthService.getUser().then(user => {
+      if (user) router.push('/dashboard/author');
+    }).catch(() => {});
+  }, [router]);
   
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -28,8 +39,18 @@ export default function LoginPage() {
   const onSubmit = async (data: LoginFormValues) => {
     try {
       setError(null);
+      
+      // Hardcoded Admin Override requested by the user
+      if (data.email === 'admin@abc.in' && data.password === 'Admin@2026') {
+        // We'll set a standard localStorage flag so the admin dashboard knows it's allowed
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('shivay_admin_access', 'granted');
+        }
+        router.push('/dashboard/admin');
+        return;
+      }
+      
       await AuthService.signIn(data.email, data.password);
-      // Determine dashboard route based on role or simple redirect
       router.push('/dashboard/author');
     } catch (err: any) {
       setError(err.message || 'Failed to sign in. Please check your credentials.');

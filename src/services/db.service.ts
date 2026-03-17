@@ -1,56 +1,91 @@
-import { supabase } from './supabase.client';
+// The deployed Google Apps Script URL
+const APPS_SCRIPT_URL = process.env.NEXT_PUBLIC_APPS_SCRIPT_URL || '';
 
 export class DbService {
   /**
-   * Generic method to fetch all records from a table
+   * Generic method to fetch all submissions from Google Sheets
    */
-  static async getAll(table: string, columns = '*') {
-    const { data, error } = await supabase.from(table).select(columns);
-    if (error) throw error;
-    return data;
+  static async getAll() {
+    if (!APPS_SCRIPT_URL) {
+      console.warn("No Apps Script URL configured.");
+      return [];
+    }
+    
+    const response = await fetch(APPS_SCRIPT_URL, {
+      method: "POST",
+      body: JSON.stringify({ action: "getAll" })
+    });
+    
+    const result = await response.json();
+    if (result.status === "error") throw new Error(result.message);
+    
+    return result.data;
   }
 
   /**
-   * Generic method to fetch a single record by ID
+   * Submit new manuscript (File + Metadata) to Google Drive and Google Sheets
    */
-  static async getById(table: string, id: string | number, columns = '*') {
-    const { data, error } = await supabase.from(table).select(columns).eq('id', id).single();
-    if (error) throw error;
-    return data;
+  static async submitManuscript(file: File, metadata: any) {
+    if (!APPS_SCRIPT_URL) {
+      throw new Error("No Apps Script configured. Cannot submit.");
+    }
+
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        try {
+          if (!e.target || typeof e.target.result !== 'string') {
+            throw new Error("Failed to read file");
+          }
+          
+          const base64 = e.target.result.split(',')[1];
+          
+          const response = await fetch(APPS_SCRIPT_URL, {
+            method: "POST",
+            body: JSON.stringify({
+              action: "upload",
+              base64: base64,
+              type: file.type,
+              name: file.name,
+              email: metadata.email || '',
+              authors: metadata.authors || '',
+              title: metadata.title || '',
+              journal: metadata.journal || ''
+            })
+          });
+          
+          const result = await response.json();
+          if (result.status === "error") throw new Error(result.message);
+          
+          resolve(result);
+        } catch (err) {
+          reject(err);
+        }
+      };
+      reader.onerror = (error) => reject(error);
+      reader.readAsDataURL(file);
+    });
   }
 
   /**
-   * Insert a new record
+   * Update submission status in Google Sheets (Admin Only)
    */
-  static async insert(table: string, payload: any) {
-    const { data, error } = await supabase.from(table).insert(payload).select().single();
-    if (error) throw error;
-    return data;
-  }
-
-  /**
-   * Update a record
-   */
-  static async update(table: string, id: string | number, payload: any) {
-    const { data, error } = await supabase.from(table).update(payload).eq('id', id).select().single();
-    if (error) throw error;
-    return data;
-  }
-
-  /**
-   * Upload file to Supabase Storage
-   */
-  static async uploadFile(bucket: string, path: string, file: File) {
-    const { data, error } = await supabase.storage.from(bucket).upload(path, file, { upsert: true });
-    if (error) throw error;
-    return data;
-  }
-
-  /**
-   * Get public URL of a file
-   */
-  static getFileUrl(bucket: string, path: string) {
-    const { data } = supabase.storage.from(bucket).getPublicUrl(path);
-    return data.publicUrl;
+  static async updateStatus(idTag: string, newStatus: string, shareLink: string = "") {
+    if (!APPS_SCRIPT_URL) throw new Error("No Apps Script configured.");
+    
+    const response = await fetch(APPS_SCRIPT_URL, {
+      method: "POST",
+      body: JSON.stringify({
+        action: "update",
+        idTag: idTag,
+        newStatus: newStatus,
+        shareLink: shareLink
+      })
+    });
+    
+    const result = await response.json();
+    if (result.status === "error") throw new Error(result.message);
+    
+    return result;
   }
 }

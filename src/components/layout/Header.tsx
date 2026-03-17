@@ -3,18 +3,39 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, BookOpen, ChevronDown } from 'lucide-react';
+import { Menu, X, BookOpen, ChevronDown, User } from 'lucide-react';
 import SiteLogo from '@/components/ui/SiteLogo';
+import { AuthService } from '@/services/auth.service';
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [user, setUser] = useState<any>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll);
+    
+    // Check Auth State on Mount
+    const checkAuth = async () => {
+      if (typeof window !== 'undefined' && window.localStorage.getItem('shivay_admin_access') === 'granted') {
+        setIsAdmin(true);
+        return;
+      }
+      try {
+        const currentUser = await AuthService.getUser();
+        if (currentUser) {
+          setUser(currentUser);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    checkAuth();
+
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -84,9 +105,19 @@ export default function Header() {
 
             {/* Actions */}
             <div className="hidden md:flex items-center gap-4">
-              <Link href="/login" className={`font-semibold text-sm ${isScrolled ? 'text-primary' : 'text-white'} hover:text-gold transition-colors`}>
-                Login
-              </Link>
+              {isAdmin ? (
+                <Link href="/dashboard/admin" className={`font-semibold flex items-center gap-1.5 text-sm ${isScrolled ? 'text-primary' : 'text-white'} hover:text-gold transition-colors`}>
+                  <User size={16} /> Admin Panel
+                </Link>
+              ) : user ? (
+                <Link href="/dashboard/author" className={`font-semibold flex items-center gap-1.5 text-sm ${isScrolled ? 'text-primary' : 'text-white'} hover:text-gold transition-colors`}>
+                  <User size={16} /> Profile
+                </Link>
+              ) : (
+                <Link href="/login" className={`font-semibold text-sm ${isScrolled ? 'text-primary' : 'text-white'} hover:text-gold transition-colors`}>
+                  Login
+                </Link>
+              )}
               <Link href="/submit">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
@@ -131,7 +162,13 @@ export default function Header() {
                   </Link>
                 ))}
                 <div className="h-px bg-gray-200 my-2" />
-                <Link href="/login" onClick={() => setMobileMenuOpen(false)} className="block font-medium text-secondary p-2">Login</Link>
+                {isAdmin ? (
+                  <Link href="/dashboard/admin" onClick={() => setMobileMenuOpen(false)} className="block font-medium text-secondary p-2 flex items-center gap-2"><User size={18}/> Admin Panel</Link>
+                ) : user ? (
+                  <Link href="/dashboard/author" onClick={() => setMobileMenuOpen(false)} className="block font-medium text-secondary p-2 flex items-center gap-2"><User size={18}/> Author Profile</Link>
+                ) : (
+                  <Link href="/login" onClick={() => setMobileMenuOpen(false)} className="block font-medium text-secondary p-2">Login</Link>
+                )}
                 <Link href="/submit" onClick={() => setMobileMenuOpen(false)}>
                   <button className="w-full bg-primary text-white font-bold px-4 py-3 rounded mt-2">
                     Submit Paper
