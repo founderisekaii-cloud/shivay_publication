@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  
+  /* Deep Navy Blue */
+  --primary: #0a192f;
+  --primary-dark: #061020;
+  
+  /* Secondary / Accents */
+  --secondary: #112240;
+  --secondary-light: #233554;
+  
+  /* Metallic Gold */
+  --gold: #d4af37;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0f172a;
+    --foreground: #f8fafc;
+    /* Keeping the prestigious dark mode theme consistent */
+    --primary: #0a192f;
+    --primary-dark: #061020;
+    --secondary: #112240;
+    --secondary-light: #233554;
+    --gold: #f3ce5e;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: var(--font-inter), sans-serif;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-playfair), serif;
+}
