@@ -23,11 +23,11 @@ export default function AboutPage() {
       </section>
 
       {/* Main Replaceable Image */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10">
+      {/* <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10">
         <AnimatedSection delay={0.2} className="relative w-full h-[150px] md:h-[200px] rounded-2xl overflow-hidden shadow-2xl border-4 border-white z-10 bg-primary-dark flex items-center justify-center">
           <h2 className="text-3xl font-serif font-bold text-white mb-4">Leading Academic Excellence</h2>
         </AnimatedSection>
-      </section>
+      </section> */}
 
       {/* Mission & Extraordinary Experiences */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-20">
